@@ -27,21 +27,26 @@ class App extends Component {
   };
 
   fetchData = () => {
+    const { seachQuery, currentPage } = this.state;
+
     this.setState({ isLoading: true });
-    fetchImages(this.state.seachQuery)
+    fetchImages(seachQuery, currentPage)
       .then(response => {
-        this.setState({
-          images: response.hits,
-        });
+        this.setState(prevState => ({
+          images: [...prevState.images, ...response.hits],
+          currentPage: prevState.currentPage + 1,
+        }));
       })
       .finally(() => this.setState({ isLoading: false }));
   };
 
   render() {
+    const { images } = this.state;
+
     return (
       <div className="App">
         <SearchBar onSubmit={this.onChangeQuery} />
-        <ImageGallery images={this.state.images} />
+        <ImageGallery images={images} />
         <Container>
           {this.state.isLoading && (
             <Loader
@@ -53,7 +58,7 @@ class App extends Component {
             />
           )}
         </Container>
-        {this.state.images.length > 0 && <Button />}
+        {images.length > 0 && <Button onClick={this.fetchData} />}
 
         {this.state.isOpen && <Modal />}
       </div>
