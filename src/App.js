@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Loader from 'react-loader-spinner';
-import SearchBar from './components/SearchBar/SearchBar';
-import ImageGallery from './components/ImageGallery/ImageGallery';
-import Button from './components/Button/Button';
-import Modal from './components/Modal/Modal';
-import Container from './components/Container/Container';
+import SearchBar from './components/SearchBar';
+import ImageGallery from './components/ImageGallery';
+import Button from './components/Button';
+import Modal from './components/Modal';
+import Container from './components/Container';
 import fetchImages from './services/apiService';
 
 class App extends Component {
