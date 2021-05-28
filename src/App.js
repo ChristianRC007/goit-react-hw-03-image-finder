@@ -14,6 +14,7 @@ class App extends Component {
     currentPage: 1,
     seachQuery: '',
     images: [],
+    largeImage: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -40,13 +41,25 @@ class App extends Component {
       .finally(() => this.setState({ isLoading: false }));
   };
 
+  toggleModal = () => {
+    this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
+  };
+
+  updateData = largeImage => {
+    this.setState({ largeImage: largeImage });
+  };
+
   render() {
-    const { images } = this.state;
+    const { images, largeImage } = this.state;
 
     return (
       <div className="App">
         <SearchBar onSubmit={this.onChangeQuery} />
-        <ImageGallery images={images} />
+        <ImageGallery
+          images={images}
+          onClick={this.toggleModal}
+          updateData={this.updateData}
+        />
         <Container>
           {this.state.isLoading && (
             <Loader
@@ -60,7 +73,9 @@ class App extends Component {
         </Container>
         {images.length > 0 && <Button onClick={this.fetchData} />}
 
-        {this.state.isOpen && <Modal />}
+        {this.state.isOpen && (
+          <Modal onClose={this.toggleModal} largeImage={largeImage} />
+        )}
       </div>
     );
   }
