@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { animateScroll } from 'react-scroll';
 import Loader from 'react-loader-spinner';
 import SearchBar from './components/SearchBar';
 import ImageGallery from './components/ImageGallery';
@@ -20,6 +21,9 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.seachQuery !== this.state.seachQuery) {
       this.fetchData();
+    }
+    if (prevState.currentPage !== this.state.currentPage) {
+      this.scrollToBottom();
     }
   }
 
@@ -49,6 +53,12 @@ class App extends Component {
     this.setState({ largeImage: largeImage });
   };
 
+  scrollToBottom = () => {
+    animateScroll.scrollToBottom({
+      containerId: 'endView',
+    });
+  };
+
   render() {
     const { images, largeImage } = this.state;
 
@@ -71,7 +81,7 @@ class App extends Component {
             />
           )}
         </Container>
-        {images.length > 0 && <Button onClick={this.fetchData} />}
+        {images.length > 0 && <Button onClick={this.fetchData} id="endView" />}
 
         {this.state.isOpen && (
           <Modal onClose={this.toggleModal} largeImage={largeImage} />
