@@ -22,9 +22,6 @@ class App extends Component {
     if (prevState.seachQuery !== this.state.seachQuery) {
       this.fetchData();
     }
-    if (prevState.currentPage !== this.state.currentPage) {
-      this.scrollToBottom();
-    }
   }
 
   onChangeQuery = query => {
@@ -43,6 +40,11 @@ class App extends Component {
         }));
       })
       .finally(() => this.setState({ isLoading: false }));
+  };
+
+  handleClick = () => {
+    this.fetchData();
+    this.scrollToBottom();
   };
 
   toggleModal = () => {
@@ -81,7 +83,9 @@ class App extends Component {
             />
           )}
         </Container>
-        {images.length > 0 && <Button onClick={this.fetchData} id="endView" />}
+        {images.length > 0 && (
+          <Button onClick={this.handleClick} id="endView" />
+        )}
 
         {this.state.isOpen && (
           <Modal onClose={this.toggleModal} largeImage={largeImage} />
